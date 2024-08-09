@@ -7,7 +7,7 @@ if 'chat_history' not in st.session_state:
     st.session_state.chat_history=[]
 
 for message in st.session_state.chat_history:
-    with st.chat_history(message['role']):
+    with st.session_state.chat_history(message['role']):
         st.markdown(message['text'])
 
 bedrockClinet = boto3.client('bedrock-agent-runtime','us-east-1')
@@ -18,7 +18,7 @@ def getAnswers(questions):
         retrieveAndGenerateConfiguration ={
             'knowledgeBaseConfiguration':{
                 'knowledgeBaseId':'EOTHLX655R',
-                'modelArn':'arn:aws:bedrock:us-east-1::foundation-model/cohere.command-text-v14'
+                'modelArn':"arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-v2"
             },
             'type':'KNOWLEDGE_BASE'
         })
@@ -42,7 +42,7 @@ if questions :
 
     if len(response['citations'][0]['retrievedReferences']) != 0:
         context = response['citations'][0]['retrievedReferences'][0]['content']['text']
-        doc_url = response['citations'][0]['retrievedReferences'][0]['location']['s3Location']['uri']
+        doc_url = response['citations'][0]['retrievedReferences'][0]['location']['sharePointLocation']['url']
         
         #Below lines are used to show the context and the document source for the latest Question Answer
         st.markdown(f"<span style='color:#FFDA33'>Context used: </span>{context}", unsafe_allow_html=True)
