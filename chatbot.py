@@ -17,7 +17,7 @@ def getAnswers(questions):
         input={'text':questions},
         retrieveAndGenerateConfiguration ={
             'knowledgeBaseConfiguration':{
-                'knowledgeBaseId':'EOTHLX655R'
+                'knowledgeBaseId':'EOTHLX655R',
                 'modelArn':'arn:aws:bedrock:us-east-1::foundation-model/cohere.command-text-v14'
             },
             'type':'KNOWLEDGE_BASE'
@@ -38,7 +38,7 @@ if questions :
     with st.chat_message('assistant'):
         st.markdown(answer)
 
-    st.session_state.chat_history.append("role":'assistant','text':answer)
+    st.session_state.chat_history.append({"role":'assistant','text':answer})
 
     if len(response['citations'][0]['retrievedReferences']) != 0:
         context = response['citations'][0]['retrievedReferences'][0]['content']['text']
