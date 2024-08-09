@@ -7,7 +7,8 @@ if 'chat_history' not in st.session_state:
     st.session_state.chat_history=[]
 
 for message in st.session_state.chat_history:
-    with st.session_state.chat_history(message['role']):
+    print(st.session_state.chat_history)
+    with st.chat_message(message['role']):
         st.markdown(message['text'])
 
 bedrockClinet = boto3.client('bedrock-agent-runtime','us-east-1')
